@@ -13,50 +13,6 @@ var myFormatters = d3.locale({
       "shortMonths": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
     });
 
-    data = [
-    {
-      "cx": 1900,
-      "cy": 10,
-      "salic": "54321-9",
-      "projeto": "Batman",
-      "color":"blue"
-    },
-    {
-      "cx": 15000.05,
-      "cy": 20,
-      "salic": "12345-20",
-      "projeto": "Minha mãe é uma peça",
-      "color":"blue"
-    },
-    {
-      "cx": 5000,
-      "cy": 10,
-      "salic": "123-90",
-      "projeto": "Ipsum Lorem",
-      "color":"blue"
-    },
-    {
-      "cx": 3000,
-      "cy": 20,
-      "salic": "90783-10",
-      "projeto": "Inception",
-      "color":"blue"
-    },
-    {
-      "cx": 1000,
-      "cy": 20,
-      "salic": "111111-22",
-      "projeto": "Uma mente brilhante",
-      "color":"blue"
-    },
-    {
-      "cx": 20000,
-      "cy": 10,
-      "salic": "33333-44",
-      "projeto": "Os outros",
-      "color":"red"
-    }
-    ]
 
     d3.format = myFormatters.numberFormat;
     numero = d3.format(",.$")
@@ -80,18 +36,19 @@ var myFormatters = d3.locale({
       });
     };
 
-    var minimo = data.min().cx;
-    var maximo = data.max().cx;
+    var drawD3Document = function (data, canvas){
 
-    var drawD3Document = function (data){
+      console.log(canvas);
+      var minimo = data.min().cx;
+      var maximo = data.max().cx;
 
-      var svg = d3.select("#canvas-svg").append("svg")
+      var svg = d3.select("#"+canvas).append("svg")
       .attr("width", WIDTH + margin.left + margin.right)
       .attr("height", HEIGHT + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      var div = d3.select("#canvas-svg").append("div")
+      var div = d3.select("#"+canvas).append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
 

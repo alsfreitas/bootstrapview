@@ -10,18 +10,27 @@
 
 <body>
 
-<div id="canvas-svg"></div>
+<div id="canvas1"></div>
+<div id="canvas2"></div>
+<div id="canvas3"></div>
+<div id="canvas4"></div>
 
 <script>
       $(document).ready(function(){
-            drawD3Document(data);
-            $.ajax({
-                  url: 'localhost:3000/pontos',
-                  dataType: 'jsonp',
-                  success: function(retorno){
-                        console.log(retorno)
-                  }
-            });
+        for(var i = 0; i < 4; i++){
+          (function(indice){
+            if(indice != 7){
+              $.ajax({
+                url: 'http://localhost:3000/pontos',
+                method: "GET",
+                dataType: 'json',
+                success: function(retorno){
+                  drawD3Document(retorno, "canvas"+(indice+1));
+                }
+              });
+            }
+          })(i);
+        }
 
             /*$.ajax({
               url: "http://10.1.120.24:8080/ancineservicos/sanfom/validacao",
