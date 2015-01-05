@@ -8,6 +8,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/pontos', pontos.findAll);
+app.get('/pontos/:id', pontos.findAll);
 app.listen(3000);
 console.log('Escutando na porta 3000...');
