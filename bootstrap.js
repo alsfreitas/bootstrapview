@@ -20,21 +20,7 @@ var myFormatters = d3.locale({
     var margin = {top: 20, right: 40, bottom: 30, left: 40};
     var WIDTH = 600 - margin.left - margin.right;
     var HEIGHT = 120 - margin.top - margin.bottom;
-
-    // Array.prototype.min = function () {
-    //   return this.reduce(function (p, v) {
-    //     return ( p.cx < v.cx ? p : v );
-    //   });
-    // };
-
     var rect = {"x":margin.left, "y":20, "height":30, "width":80, "fill":"yellow", "opacity":0.5};
-
-    // Array.prototype.max = function () {
-    //   return this.reduce(function (p, v) {
-    //     return ( p.cx > v.cx ? p : v );
-
-    //   });
-    // };
 
     var drawD3Document = function (data, canvas){
 
@@ -48,27 +34,32 @@ var myFormatters = d3.locale({
 
       console.log(data.map(function(x,y){return x.cx}));
 
+      xScale = d3.scale.linear().domain([data[0].cx-1, data[data.length-1].cx+1]).range([0, WIDTH]);
+      xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(-HEIGHT/8);
+
+      var zoom = d3.behavior.zoom()
+        .x(xScale)
+        .scaleExtent([0.01, 10])
+        .on("zoom", zoomed)
+
       var svg = d3.select("#"+canvas).append("svg")
         .attr("width", WIDTH + margin.left + margin.right)
         .attr("height", HEIGHT + margin.top + margin.bottom)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .call(zoom);
+
 
       var div = d3.select("#"+canvas).append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
-
-      var xValue = function(d) { return d.cx;}, // data -> value
-      xScale = d3.scale.linear().range([0, WIDTH]), // value -> display
-      xMap = function(d) { return xScale(xValue(d));}, // data -> display
-      xAxis = d3.svg.axis().scale(xScale).orient("bottom");
-      xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
 
       svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + HEIGHT + ")")
         .call(xAxis)
         .append("text")
+        .text("bla")
         .attr("class", "label")
         .attr("x", WIDTH)
         .attr("y", -6)
@@ -86,7 +77,7 @@ var myFormatters = d3.locale({
         .data(data)
         .enter()
         .append("circle")
-        .attr("cx", function(d){return xMap(d)})
+        .attr("cx", function(d){return xScale(d.cx)})
         .attr("cy", function(d){return d.cy+20})
         .attr("r", 4)
         .style("fill", function(d){return d.color})
@@ -102,6 +93,11 @@ var myFormatters = d3.locale({
           div.transition()
           .duration(500)
           .style("opacity", 0);
-
         });
+
+      function zoomed() {
+        svg.select(".x.axis").attr("transform", "translate(" + d3.event.translate[0] + ", "+HEIGHT+")scale(" + d3.event.scale + ")");
+        svg.selectAll("circle").attr("transform", "translate(" + d3.event.translate+" )scale(" + d3.event.scale + ")");
+        svg.select("rect").attr("transform", "translate(" + d3.event.translate+" )scale(" + d3.event.scale + ")");
+      }
   };
