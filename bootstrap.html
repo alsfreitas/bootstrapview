@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="bootstrap.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script src="d3/d3.js"></script>
+  <script src="bootstrap.js"></script>
+</head>
+
+<body>
+
+<div id="canvas-svg"></div>
+
+<script>
+      $(document).ready(function(){
+            drawD3Document(data);
+            $.ajax({
+                  url: 'localhost:3000/pontos',
+                  dataType: 'jsonp',
+                  success: function(retorno){
+                        console.log(retorno)
+                  }
+            });
+
+            /*$.ajax({
+              url: "http://10.1.120.24:8080/ancineservicos/sanfom/validacao",
+              type: 'POST',
+              dataType: 'json',
+              contentType: "application/json",
+              data: JSON.stringify({"Tipologia":"ficcao", "ObraSeriada": false, "Longa":true, "i1": "0.00", "i2":"1.00", "i3":"0.00", "i4":"0.00", "i5":"0.00", "i6":"0.00", "i8":"0.00", "i9":"0.00", "i10":"0.00", "i11":"0.00", "i12":"0.00", "i13":"0.00", "i14":"0.00", "i15":"0.00", "i16":"0.00", "i17":"0.00", "i18":"0.00", "i19":"0.00", "i20":"0.00", "i21":"0.00", "i22":"0.00", "i23":"0.00", "i24":"0.00", "i25":"0.01", "i26":"0.00", "i27":"0.00", "i28":"0.00", "i29":"0.00", "i30":"0.00", "i31":"0.00", "i32":"0.00", "i33":"0.00", "i34":"0.00", "i35":"0.00", "i36":"0.00", "i37":"0.00", "i38":"0.00", "i39":"0.00", "i40":"0.00", "i41":"0.00"}),
+              success: function(retorno){
+                  alert(retorno);
+              }
+            })*/
+      })
+</script>
+</body>
+</html>
