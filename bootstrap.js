@@ -24,7 +24,7 @@ var WIDTH = 600 - margin.left - margin.right;
 var HEIGHT = 160 - margin.top - margin.bottom;
 var rect = {"x":2500/ESCALA, "y":40, "height":30, "x2":6500/ESCALA, "fill":"yellow", "opacity":0.5};
 
-var drawD3Document = function (data, canvas){
+var drawD3Document = function (data, canvas, indice){
 
   data.forEach(function(d) {
     d.cx = +d.cx/ESCALA;
@@ -57,16 +57,22 @@ var drawD3Document = function (data, canvas){
   .attr("class", "tooltip")
   .style("opacity", 0);
 
+  console.log((xScale(data[data.length-1].cx)-xScale(data[0].cx)))
+  numero = d3.format(",.$")
   svg.append("g")
   .attr("class", "x axis")
+  .attr("id", "x"+indice)
   .attr("transform", "translate(0," + HEIGHT + ")")
   .call(xAxis)
+
+   svg.append("g")
+  .attr("class", "bla")
   .append("text")
-  .text("bla")
+  .text("Custo em  "+ESCALA+" Reais")
   .attr("class", "label")
-  .attr("x", WIDTH)
-  .attr("y", 20)
-  .style("text-anchor", "end");
+  .attr("x", WIDTH/2-50)
+  .attr("y", HEIGHT+40)
+  .style("text-anchor", "center");
 
   svg.append("rect")
   .attr('x', 0)
@@ -93,6 +99,7 @@ var drawD3Document = function (data, canvas){
   .attr("cx", function(d){return xScale(d.cx)})
   .attr("cy", function(d){return d.cy+40})
   .attr("r", 4)
+  .attr("class", "circle"+indice)
   .style("fill", function(d){return d.color})
   .on("mouseover", function(d) {
     div.transition()
@@ -108,12 +115,13 @@ var drawD3Document = function (data, canvas){
     .style("opacity", 0);
   });
 
-  wheel1 = 1
-  wheel2 = 1
-  width = 1
+  var wheel1 = 1
+  var wheel2 = 1
+  var width = 1
+
   function zoomed() {
     wheel2 = d3.event.scale
-    //console.log("1: "+ wheel1 + "      2: " + wheel2)
+
     if(wheel2 > wheel1){
       width += 0.25
       if(width > 2.5){
@@ -125,7 +133,10 @@ var drawD3Document = function (data, canvas){
         width = 1
       }
     }
-    xScale = xScale.range([0, width*WIDTH]);
+
+    // xScale = xScale.range([0, width*WIDTH]);
+    var novaScale = xScale.range([0, width*WIDTH]);
+
     wheel1 = wheel2
     //svg.select(".x.axis").attr("transform", "translate(" + d3.event.translate[0] + ", "+HEIGHT+")scale(" + 1 + ")");
         // svg.select(".x.axis").attr("transform", "translate(" + d3.event.translate[0] + ", "+HEIGHT+")scale(" + d3.event.scale + ")");
@@ -134,11 +145,17 @@ var drawD3Document = function (data, canvas){
 
     var tx = d3.event.translate[0]
     //console.log(svg.select(".x.axis"));
-    svg.select(".x.axis").call(xAxis).attr("transform", "translate(" + tx + ", "+HEIGHT+")scale(1)");
-    svg.selectAll("circle").attr("cx", function(d){return xScale(d.cx)}).attr("transform", "translate(" + tx + ", 0)scale(1)");
-    svg.select(".rect1").attr('x', 0).attr('width', xScale(data[data.length-1].cx)-xScale(data[0].cx)).attr("transform", "translate(" + tx+",0)scale(1)");
-    svg.select(".rect2").attr('x', function(d){return xScale(rect.x)}).attr('width', xScale(rect.x2) - xScale(rect.x)).attr("transform", "translate(" + tx+",0)scale(1)");
+    // svg.select(".x.axis").call(xAxis).attr("transform", "translate(" + tx + ", "+HEIGHT+")scale(1)");
+    // svg.selectAll("circle").attr("cx", function(d){return xScale(d.cx)}).attr("transform", "translate(" + tx + ", 0)scale(1)");
+    // svg.select(".rect1").attr('x', 0).attr('width', xScale(data[data.length-1].cx)-xScale(data[0].cx)).attr("transform", "translate(" + tx+",0)scale(1)");
+    // svg.select(".rect2").attr('x', function(d){return xScale(rect.x)}).attr('width', xScale(rect.x2) - xScale(rect.x)).attr("transform", "translate(" + tx+",0)scale(1)");
 
+    svg.select(".x.axis").call(xAxis).attr("transform", "translate(" + tx + ", "+HEIGHT+")scale(1)");
+    svg.selectAll("circle").attr("cx", function(d){return novaScale(d.cx)}).attr("transform", "translate(" + tx + ", 0)scale(1)");
+    svg.select(".rect1").attr('x', 0).attr('width', novaScale(data[data.length-1].cx)-novaScale(data[0].cx)).attr("transform", "translate(" + tx+",0)scale(1)");
+    svg.select(".rect2").attr('x', function(d){return novaScale(rect.x)}).attr('width', novaScale(rect.x2) - novaScale(rect.x)).attr("transform", "translate(" + tx+",0)scale(1)");
+
+    console.log(svg.select(".x.axis").attr("text"))
 
       }
     };
