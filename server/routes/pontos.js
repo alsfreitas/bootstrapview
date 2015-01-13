@@ -36,7 +36,7 @@ exports.findAll = function(req, res) {
       "color":"blue"
     },
     {
-      "cx": 20000,
+      "cx": 10000.00,
       "cy": 10,
       "salic": "33333-44",
       "projeto": "Os outros",

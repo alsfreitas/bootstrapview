@@ -21,11 +21,11 @@
         for(i = 0; i < canvas.length; i++){
           (function(indice){
               $.ajax({
-                url: 'http://localhost:3000/pontos/'+indice,
+                url: "http://localhost:8080/ancineservicos/sanfom/itens/"+(indice+1)+"000/?custoProjeto=3000000&longa=true&custoItem=123456.00&seriado=false&tipologia=ficcao",
                 method: "GET",
                 dataType: 'json',
                 success: function(retorno){
-                  drawD3Document(retorno, canvas[indice]);
+                  drawD3Document(retorno, canvas[indice], indice);
                 }
               });
           })(i);

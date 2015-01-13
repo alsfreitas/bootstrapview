@@ -1,4 +1,5 @@
-var ESCALA = 1000
+ESCALA = 1
+ESCALA_ZOOM = [1, 16]
 
 var myFormatters = d3.locale({
   "decimal": ",",
@@ -22,26 +23,33 @@ numero = d3.format(",.$")
 var margin = {top: 20, right: 10, bottom: 50, left: 10};
 var WIDTH = 600 - margin.left - margin.right;
 var HEIGHT = 160 - margin.top - margin.bottom;
-var rect = {"x":2500/ESCALA, "y":40, "height":30, "x2":6500/ESCALA, "fill":"yellow", "opacity":0.5};
+var HEIGHT_X_AXIS = 0.8*HEIGHT
 
-var drawD3Document = function (data, canvas, indice){
+var drawD3Document = function (retorno, canvas, indice){
+
+  var numOfticks = 5
+  var rect = {"x":retorno.limitesBootstrap[0]/ESCALA, "y":30, "height":30, "x2":retorno.limitesBootstrap[1]/ESCALA, "fill":"yellow", "opacity":0.5};
+  var data = retorno.pontos
 
   data.forEach(function(d) {
-    d.cx = +d.cx/ESCALA;
+    d.cx = +d.valor/ESCALA;
+    d.cy = 20;
+    d.color = "blue";
   });
+  data[data.length-1].color = "red"
 
   data.sort(function(a,b){
     return a.cx - b.cx;
   });
 
-  console.log(data.map(function(x,y){return x.cx}));
+  var xScale = d3.scale.linear().domain([data[0].cx, data[data.length-1].cx]).range([0, WIDTH]);
+  var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(numOfticks).tickSize(-HEIGHT_X_AXIS/8);
 
-  xScale = d3.scale.linear().domain([data[0].cx, data[data.length-1].cx]).range([0, WIDTH]);
-  xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(-HEIGHT/8);
+  console.log(xScale)
 
   var zoom = d3.behavior.zoom()
   .x(xScale)
-  .scaleExtent([1, 2.5])
+  .scaleExtent(ESCALA_ZOOM)
   .on("zoom", zoomed)
 
   var svg = d3.select("#"+canvas).append("svg")
@@ -52,33 +60,37 @@ var drawD3Document = function (data, canvas, indice){
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
   .call(zoom);
 
-
   var div = d3.select("#"+canvas).append("div")
   .attr("class", "tooltip")
   .style("opacity", 0);
 
-  console.log((xScale(data[data.length-1].cx)-xScale(data[0].cx)))
-  numero = d3.format(",.$")
   svg.append("g")
   .attr("class", "x axis")
   .attr("id", "x"+indice)
-  .attr("transform", "translate(0," + HEIGHT + ")")
+  .attr("transform", "translate(0, "+HEIGHT_X_AXIS+")")
   .call(xAxis)
+  .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-.2em")
+    .attr("dy", ".80em")
+    .attr("transform", function(d) {
+      return "translate(0, "+0+")"+"rotate(-45)"
+     });
 
-   svg.append("g")
-  .attr("class", "bla")
-  .append("text")
-  .text("Custo em  "+ESCALA+" Reais")
-  .attr("class", "label")
-  .attr("x", WIDTH/2-50)
-  .attr("y", HEIGHT+40)
-  .style("text-anchor", "center");
+  //  svg.append("g")
+  // .attr("class", "labelX")
+  // .append("text")
+  // .text("Custo em  "+ESCALA+" Reais")
+  // .attr("class", "label")
+  // .attr("x", WIDTH/2-50)
+  // .attr("y", HEIGHT+40)
+  // .style("text-anchor", "center");
 
   svg.append("rect")
   .attr('x', 0)
   .attr('y', 0)
   .attr('width', function(d){return xScale(data[data.length-1].cx)-xScale(data[0].cx)})
-  .attr('height', HEIGHT)
+  .attr('height', HEIGHT_X_AXIS)
   .attr('fill', "blue")
   .attr('opacity', 0)
   .attr("class", "rect1");
@@ -97,7 +109,7 @@ var drawD3Document = function (data, canvas, indice){
   .enter()
   .append("circle")
   .attr("cx", function(d){return xScale(d.cx)})
-  .attr("cy", function(d){return d.cy+40})
+  .attr("cy", function(d){return d.cy+30})
   .attr("r", 4)
   .attr("class", "circle"+indice)
   .style("fill", function(d){return d.color})
@@ -105,7 +117,7 @@ var drawD3Document = function (data, canvas, indice){
     div.transition()
     .duration(200)
     .style("opacity", .9);
-    div.html("SALIC: "+d.salic+"<br/>"+"NOME: "+d.projeto+"<br/>"+"VALOR: "+numero(d.cx*ESCALA)+"<br/>")
+    div.html("SALIC: "+d.salic+"<br/>"+"PROJETO: "+d.nomeProjeto+"<br/>"+"VALOR: "+numero(d.cx*ESCALA)+"<br/>")
     .style("left", (d3.event.pageX) + "px")
     .style("top", (d3.event.pageY - 40) + "px");
   })
@@ -115,47 +127,40 @@ var drawD3Document = function (data, canvas, indice){
     .style("opacity", 0);
   });
 
-  var wheel1 = 1
-  var wheel2 = 1
-  var width = 1
-
+  var marco = 0
+  var tx = 0
   function zoomed() {
-    wheel2 = d3.event.scale
 
-    if(wheel2 > wheel1){
-      width += 0.25
-      if(width > 2.5){
-        width =2.5
-      }
-    }else if(wheel1 > wheel2){
-      width -= 0.25
-      if(width < 1){
-        width = 1
-      }
+    var fator = zoom.scale()
+
+     if(fator < ESCALA_ZOOM[0]){
+        fator = ESCALA_ZOOM[0]
+    }else  if(fator > ESCALA_ZOOM[1]){
+        fator = ESCALA_ZOOM[1]
     }
 
-    // xScale = xScale.range([0, width*WIDTH]);
-    var novaScale = xScale.range([0, width*WIDTH]);
+    console.log("fator: " + fator)
 
-    wheel1 = wheel2
-    //svg.select(".x.axis").attr("transform", "translate(" + d3.event.translate[0] + ", "+HEIGHT+")scale(" + 1 + ")");
-        // svg.select(".x.axis").attr("transform", "translate(" + d3.event.translate[0] + ", "+HEIGHT+")scale(" + d3.event.scale + ")");
-        // svg.selectAll("circle").attr("transform", "translate(" + d3.event.translate+" )scale(" + d3.event.scale + ")");
-        // svg.select("rect").attr("transform", "translate(" + d3.event.translate+" )scale(" + d3.event.scale + ")");
+    var xScale = d3.scale.linear().domain([data[0].cx, data[data.length-1].cx]).range([0, fator*WIDTH]);
+    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(numOfticks).tickSize(-HEIGHT_X_AXIS/8);
 
-    var tx = d3.event.translate[0]
-    //console.log(svg.select(".x.axis"));
-    // svg.select(".x.axis").call(xAxis).attr("transform", "translate(" + tx + ", "+HEIGHT+")scale(1)");
-    // svg.selectAll("circle").attr("cx", function(d){return xScale(d.cx)}).attr("transform", "translate(" + tx + ", 0)scale(1)");
-    // svg.select(".rect1").attr('x', 0).attr('width', xScale(data[data.length-1].cx)-xScale(data[0].cx)).attr("transform", "translate(" + tx+",0)scale(1)");
-    // svg.select(".rect2").attr('x', function(d){return xScale(rect.x)}).attr('width', xScale(rect.x2) - xScale(rect.x)).attr("transform", "translate(" + tx+",0)scale(1)");
+    tx = d3.event.translate[0]
 
-    svg.select(".x.axis").call(xAxis).attr("transform", "translate(" + tx + ", "+HEIGHT+")scale(1)");
-    svg.selectAll("circle").attr("cx", function(d){return novaScale(d.cx)}).attr("transform", "translate(" + tx + ", 0)scale(1)");
-    svg.select(".rect1").attr('x', 0).attr('width', novaScale(data[data.length-1].cx)-novaScale(data[0].cx)).attr("transform", "translate(" + tx+",0)scale(1)");
-    svg.select(".rect2").attr('x', function(d){return novaScale(rect.x)}).attr('width', novaScale(rect.x2) - novaScale(rect.x)).attr("transform", "translate(" + tx+",0)scale(1)");
+    console.log("tx: " + zoom.translate()[0])
 
-    console.log(svg.select(".x.axis").attr("text"))
+    svg.select("#x"+indice).call(xAxis).attr("transform", "translate(" + tx + ", "+HEIGHT_X_AXIS+")scale(1)")
+    .selectAll("text")
+      .style("text-anchor", "end")
+       .attr("dx", "-.2em")
+    .attr("dy", ".80em")
+      .attr("transform", function(d) {
+        return "rotate(-45)"
+      });
+    svg.selectAll("circle").attr("cx", function(d){return xScale(d.cx)}).attr("transform", "translate(" + tx + ", 0)scale(1)");
+    svg.select(".rect1").attr('x', 0).attr('width', xScale(data[data.length-1].cx)-xScale(data[0].cx)).attr("transform", "translate(" + tx+",0)scale(1)");
+    svg.select(".rect2").attr('x', function(d){return xScale(rect.x)}).attr('width', xScale(rect.x2) - xScale(rect.x)).attr("transform", "translate(" + tx +",0)scale(1)");
+
+    tx = marco
 
       }
     };
