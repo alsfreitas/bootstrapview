@@ -21,9 +21,11 @@
         for(i = 0; i < canvas.length; i++){
           (function(indice){
               $.ajax({
-                url: "http://localhost:8080/ancineservicos/sanfom/itens/"+(indice+1)+"000/?custoProjeto=3000000&longa=true&custoItem=123456.00&seriado=false&tipologia=ficcao",
+                url: "http://jb-hml-mig:8080/ancineservicos/sanfom/itens/"+(indice+1)+"000/?custoProjeto=3000000&longa=true&custoItem=123456.00&seriado=false&tipologia=ficcao",
                 method: "GET",
                 dataType: 'json',
+                cache: false,
+                crossDomain: true,
                 success: function(retorno){
                   drawD3Document(retorno, canvas[indice], indice);
                 }
