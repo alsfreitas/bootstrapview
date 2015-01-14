@@ -1,4 +1,3 @@
-ESCALA = 1
 ESCALA_ZOOM = [1, 16]
 
 var myFormatters = d3.locale({
@@ -20,19 +19,19 @@ var myFormatters = d3.locale({
 d3.format = myFormatters.numberFormat;
 numero = d3.format(",.$")
 
-var margin = {top: 20, right: 10, bottom: 50, left: 10};
+var margin = {top: 20, right: 20, bottom: 50, left: 20};
 var WIDTH = 600 - margin.left - margin.right;
 var HEIGHT = 160 - margin.top - margin.bottom;
 var HEIGHT_X_AXIS = 0.8*HEIGHT
 
 var drawD3Document = function (retorno, canvas, indice){
 
-  var numOfticks = 5
-  var rect = {"x":retorno.limitesBootstrap[0]/ESCALA, "y":30, "height":30, "x2":retorno.limitesBootstrap[1]/ESCALA, "fill":"yellow", "opacity":0.5};
+  var numOfticks = 20
+  var rect = {"x":retorno.limitesBootstrap[0], "y":30, "height":30, "x2":retorno.limitesBootstrap[1], "fill":"yellow", "opacity":0.5};
   var data = retorno.pontos
 
   data.forEach(function(d) {
-    d.cx = +d.valor/ESCALA;
+    d.cx = +d.valor;
     d.cy = 20;
     d.color = "blue";
   });
@@ -71,10 +70,10 @@ var drawD3Document = function (retorno, canvas, indice){
   .call(xAxis)
   .selectAll("text")
     .style("text-anchor", "end")
-    .attr("dx", "-.2em")
-    .attr("dy", ".80em")
+    .attr("dx", "-.6em")
+    .attr("dy", ".50em")
     .attr("transform", function(d) {
-      return "translate(0, "+0+")"+"rotate(-45)"
+      return "translate(0, "+0+")"+"rotate(-65)"
      });
 
   //  svg.append("g")
@@ -117,7 +116,7 @@ var drawD3Document = function (retorno, canvas, indice){
     div.transition()
     .duration(200)
     .style("opacity", .9);
-    div.html("SALIC: "+d.salic+"<br/>"+"PROJETO: "+d.nomeProjeto+"<br/>"+"VALOR: "+numero(d.cx*ESCALA)+"<br/>")
+    div.html("SALIC: "+d.salic+"<br/>"+"PROJETO: "+d.nomeProjeto+"<br/>"+"VALOR: "+numero(d.cx)+"<br/>")
     .style("left", (d3.event.pageX) + "px")
     .style("top", (d3.event.pageY - 40) + "px");
   })
@@ -127,40 +126,39 @@ var drawD3Document = function (retorno, canvas, indice){
     .style("opacity", 0);
   });
 
-  var marco = 0
-  var tx = 0
   function zoomed() {
 
     var fator = zoom.scale()
-
-     if(fator < ESCALA_ZOOM[0]){
-        fator = ESCALA_ZOOM[0]
-    }else  if(fator > ESCALA_ZOOM[1]){
-        fator = ESCALA_ZOOM[1]
-    }
-
-    console.log("fator: " + fator)
-
     var xScale = d3.scale.linear().domain([data[0].cx, data[data.length-1].cx]).range([0, fator*WIDTH]);
     var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(numOfticks).tickSize(-HEIGHT_X_AXIS/8);
 
-    tx = d3.event.translate[0]
+    var minX = -fator*WIDTH
+    var scrollMaxParaEsquerda = minX + WIDTH
+    var scrollMaxDaDireita = -fator*WIDTH + WIDTH
+    var scrollMaxDaEsquerda = 0
 
-    console.log("tx: " + zoom.translate()[0])
+    var tx = zoom.translate()[0]
+
+    if(tx > scrollMaxDaEsquerda){
+        tx = scrollMaxDaEsquerda
+    }else if(tx < scrollMaxDaDireita){
+        tx = scrollMaxDaDireita
+    }
+
+    // console.log("scrollMaxParaDireita: " + scrollMaxDaDireita + "   scrollmaxEsquerda: " + scrollMaxDaEsquerda)
+    // console.log("tx: " + zoom.translate()[0])
 
     svg.select("#x"+indice).call(xAxis).attr("transform", "translate(" + tx + ", "+HEIGHT_X_AXIS+")scale(1)")
     .selectAll("text")
-      .style("text-anchor", "end")
-       .attr("dx", "-.2em")
-    .attr("dy", ".80em")
-      .attr("transform", function(d) {
-        return "rotate(-45)"
-      });
+    .style("text-anchor", "end")
+    .attr("dx", "-.6em")
+    .attr("dy", ".5em")
+    .attr("transform", function(d) {
+        return "rotate(-65)"
+    });
     svg.selectAll("circle").attr("cx", function(d){return xScale(d.cx)}).attr("transform", "translate(" + tx + ", 0)scale(1)");
     svg.select(".rect1").attr('x', 0).attr('width', xScale(data[data.length-1].cx)-xScale(data[0].cx)).attr("transform", "translate(" + tx+",0)scale(1)");
     svg.select(".rect2").attr('x', function(d){return xScale(rect.x)}).attr('width', xScale(rect.x2) - xScale(rect.x)).attr("transform", "translate(" + tx +",0)scale(1)");
-
-    tx = marco
 
       }
     };
