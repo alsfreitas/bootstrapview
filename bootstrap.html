@@ -6,6 +6,28 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script src="d3/d3.js"></script>
   <script src="bootstrap.js"></script>
+  <style>
+      div{
+          border: 2px solid #a1a1a1;
+          height: 200px;
+          border-radius: 25px;
+      }
+      .canvas{
+        width: 600px;
+        float: left;
+        margin-bottom: 40px;
+      }
+      .dados{
+        width: 320px;
+        margin-left: 40%;
+        margin-bottom: 40px;
+      }
+
+      p {
+        text-indent: 5px;
+      }
+
+  </style>
 </head>
 
 <body>
@@ -18,59 +40,405 @@
       </script>
 
       <div class="canvas" id="canvas1" data-item-id="1000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados1">
+        <p class="item"><b>Item: </b>1000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas2" data-item-id="2000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados2">
+        <p class="item"><b>Item: </b>2000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas3" data-item-id="3000" data-custo-item="123456.00"></div>
-      <div class="canvas" id="canvas4" data-item-id="4000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados3">
+        <p class="item"><b>Item: </b>3000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
+      <div class="canvas" id="canvas4" data-item-id="4000" data-custo-item="0.00"></div>
+      <div class="dados" id="dados4">
+        <p class="item"><b>Item: </b>4000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas5" data-item-id="5000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados5">
+        <p class="item"><b>Item: </b>5000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas6" data-item-id="6000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados6">
+        <p class="item"><b>Item: </b>6000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas8" data-item-id="8000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados8">
+        <p class="item"><b>Item: </b>8000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas9" data-item-id="9000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados9">
+        <p class="item"><b>Item: </b>9000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas10" data-item-id="10000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados10">
+        <p class="item"><b>Item: </b>10000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas11" data-item-id="11000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados11">
+        <p class="item"><b>Item: </b>11000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas12" data-item-id="12000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados12">
+        <p class="item"><b>Item: </b>12000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas13" data-item-id="13000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados13">
+        <p class="item"><b>Item: </b>13000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas14" data-item-id="14000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados14">
+        <p class="item"><b>Item: </b>14000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas15" data-item-id="15000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados15">
+        <p class="item"><b>Item: </b>15000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas16" data-item-id="16000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados16">
+        <p class="item"><b>Item: </b>16000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas17" data-item-id="17000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados17">
+        <p class="item"><b>Item: </b>17000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas18" data-item-id="18000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados18">
+        <p class="item"><b>Item: </b>18000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas19" data-item-id="19000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados19">
+        <p class="item"><b>Item: </b>19000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas20" data-item-id="20000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados20">
+        <p class="item"><b>Item: </b>20000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas21" data-item-id="21000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados21">
+        <p class="item"><b>Item: </b>21000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas22" data-item-id="22000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados22">
+        <p class="item"><b>Item: </b>22000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas23" data-item-id="23000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados23">
+        <p class="item"><b>Item: </b>23000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas24" data-item-id="24000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados24">
+        <p class="item"><b>Item: </b>24000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas25" data-item-id="25000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados25">
+        <p class="item"><b>Item: </b>25000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas26" data-item-id="26000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados26">
+        <p class="item"><b>Item: </b>26000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas27" data-item-id="27000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados27">
+        <p class="item"><b>Item: </b>27000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas28" data-item-id="28000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados28">
+        <p class="item"><b>Item: </b>28000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas29" data-item-id="29000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados29">
+        <p class="item"><b>Item: </b>29000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas30" data-item-id="30000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados30">
+        <p class="item"><b>Item: </b>30000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas31" data-item-id="31000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados31">
+        <p class="item"><b>Item: </b>31000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas32" data-item-id="32000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados32">
+        <p class="item"><b>Item: </b>32000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas33" data-item-id="33000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados33">
+        <p class="item"><b>Item: </b>33000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas34" data-item-id="34000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados34">
+        <p class="item"><b>Item: </b>34000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas35" data-item-id="35000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados35">
+        <p class="item"><b>Item: </b>35000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas36" data-item-id="36000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados36">
+        <p class="item"><b>Item: </b>36000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas37" data-item-id="37000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados37">
+        <p class="item"><b>Item: </b>37000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas38" data-item-id="38000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados38">
+        <p class="item"><b>Item: </b>38000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas39" data-item-id="39000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados39">
+        <p class="item"><b>Item: </b>39000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas40" data-item-id="40000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados40">
+        <p class="item"><b>Item: </b>40000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <div class="canvas" id="canvas41" data-item-id="41000" data-custo-item="123456.00"></div>
+      <div class="dados" id="dados41">
+        <p class="item"><b>Item: </b>41000</p>
+        <p class="valor_minimo"><b>Custo mínimo: </b></p>
+        <p class="valor_maximo"><b>Custo máximo: </b></p>
+        <p class="custos_positivos"><b>Custos positivos: </b></p>
+        <p class="bootstrap"><b>Bootstrap: </b></p>
+      </div>
+
       <!-- Fim da área de transmissão do código do lado do servidor -->
 
 <script>
       $(document).ready(function(){
         var canvas = $(".canvas")
+        var dados = $(".dados")
         for(var i = 0; i < canvas.length; i++){
           (function(indice){
               $.ajax({
-                url: "http://jb-hml-mig:8080/ancineservicos/sanfom/itens/"+canvas[indice].getAttribute("data-item-id")+"/?custoProjeto="+custoProjeto+"&longa="+longa+"&custoItem="+canvas[indice].getAttribute("data-custo-item")+"&seriado="+seriado+"&tipologia="+tipologia,
+                url: "http://localhost:8080/ancineservicos/sanfom/itens/"+canvas[indice].getAttribute("data-item-id")+"/?custoProjeto="+custoProjeto+"&longa="+longa+"&custoItem="+canvas[indice].getAttribute("data-custo-item")+"&seriado="+seriado+"&tipologia="+tipologia,
                 method: "GET",
                 dataType: 'json',
                 success: function(retorno){
-                  console.log(canvas[indice])
+                  var pontos = $.extend(true, [], retorno.pontos)
+                  pontos.push({'valor': canvas[indice].getAttribute("data-custo-item"), 'nomeProjeto': 'f4k3'})
+                  pontos.sort(function(a,b){return a.valor - b.valor;})
+                  console.log(pontos)
                   drawD3Document(retorno, canvas[indice]['id'], indice);
+                  $("#"+dados[indice]['id']).find(".valor_minimo").append(formatador_numero(pontos[0].valor))
+                  $("#"+dados[indice]['id']).find(".valor_maximo").append(formatador_numero(pontos[pontos.length-1].valor))
+                  $("#"+dados[indice]['id']).find(".custos_positivos").append(function(d){
+                    var itens_nulos = 0
+                    pontos.forEach(function(d){
+                      if((d.valor == 0) && (d.nomeProjeto != 'f4k3')){
+                        itens_nulos++
+                      }
+                    })
+                    return (pontos.length-1)- itens_nulos;
+                  })
+
+                  console.log(dados[indice]['id'], pontos[0].valor, pontos[pontos.length-1].valor, (retorno.limitesBootstrap[0]+5000.50) > pontos[0].valor, (retorno.limitesBootstrap[1]+15000.74) < pontos[pontos.length-1].valor)
+
+                  //quando em produção, a lógica deste if servirá para definir o range do bootstrap de cada item
+                  //atualmente, este if serve apenas para simular a aposição do bootstrap
+                  if(((retorno.limitesBootstrap[0]+5000.50) > pontos[0].valor) && (((retorno.limitesBootstrap[1]+15000.74) < pontos[pontos.length-1].valor))){
+                    $("#"+dados[indice]['id']).find(".bootstrap").append("["+formatador_numero(retorno.limitesBootstrap[0]+5000.50)+"-"+formatador_numero(retorno.limitesBootstrap[1]+15000.74)+"]")
+                  }else{
+                    $("#"+dados[indice]['id']).find(".bootstrap").append("Não se aplica")
+                  }
+
                 }
               });
           })(i);

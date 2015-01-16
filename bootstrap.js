@@ -12,11 +12,7 @@ Array.prototype.unique = function()
   return r;
 }
 
-var drawD3Document = function (retorno, canvas, indice){
-
-  var ESCALA_ZOOM = [1, 16]
-
-  var myFormatters = d3.locale({
+myFormatters = d3.locale({
     "decimal": ",",
     "thousands": ".",
     "grouping": [3],
@@ -31,39 +27,53 @@ var drawD3Document = function (retorno, canvas, indice){
     "shortMonths": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dec"]
   });
 
-
   d3.format = myFormatters.numberFormat;
-  var numero = d3.format(",.$")
+  formatador_numero = d3.format(",.2f$")
 
-  var margin = {top: 20, right: 20, bottom: 50, left: 20};
-  var WIDTH = 600 - margin.left - margin.right;
-  var HEIGHT = 160 - margin.top - margin.bottom;
+var drawD3Document = function (retorno, canvas, indice){
+
+  var ESCALA_ZOOM = [1, 16]
+
+  var margin = {top: 20, right: 20, bottom: 100, left: 30};
+  var SVG_WIDTH = 600
+  var SVG_HEIGHT = 200
+  var WIDTH = SVG_WIDTH - margin.left - margin.right;
+  var HEIGHT = SVG_HEIGHT - margin.top - margin.bottom;
   var HEIGHT_X_AXIS = 0.8*HEIGHT
-
+  var CIRCLES_Y = 0.15*HEIGHT
+  var BOOTSTRAP_Y = 0.35*HEIGHT
+  var BOOTSTRAP_HEIGHT = 0.3*HEIGHT
+  var TICK_SIZE = -HEIGHT_X_AXIS/8
   var numOfticks = 20
-  var rect = {"x":retorno.limitesBootstrap[0]+5000, "y":30, "height":30, "x2":retorno.limitesBootstrap[1]+15000, "fill":"yellow", "opacity":0.5};
-  var data = retorno.pontos
+  var data = retorno.pontos.slice()
 
   data.forEach(function(d) {
     d.cx = +d.valor;
-    d.cy = 20;
+    d.cy = CIRCLES_Y;
     d.color = "blue";
   });
 
-  data.push({'cx': $("#"+canvas).attr('data-custo-item'), 'cy': 20, 'color': "red"})
-
-  console.log(data)
+  data.push({'cx': $("#"+canvas).attr('data-custo-item'), 'cy': CIRCLES_Y, 'color': "red"})
 
   data.sort(function(a,b){
     return a.cx - b.cx;
   });
+
+  var rect = {}
+  if((retorno.limitesBootstrap[0]+5000.50) > data[0].cx && (retorno.limitesBootstrap[1]+15000.74) < data[data.length-1].cx){
+    rect = {"x":retorno.limitesBootstrap[0]+5000, "y":BOOTSTRAP_Y, "height": BOOTSTRAP_HEIGHT, "x2":retorno.limitesBootstrap[1]+15000, "fill":"yellow", "opacity":0.5};
+  }else{
+    //código de produção
+    //deixar apenas esta linha quando em produção. O if envolvente serve apenas para mostrar o bootstrap
+    rect = {"x":retorno.limitesBootstrap[0], "y":BOOTSTRAP_Y, "height": BOOTSTRAP_HEIGHT, "x2":retorno.limitesBootstrap[1], "fill":"yellow", "opacity":0.5};
+  }
 
   var unicos = data.unique()
   for(var i = 0; i<unicos.length; i++){
     for(var j = 0; j<data.length; j++){
       if(unicos[i].cx == data[j].cx){
         if(!unicos[i].html){
-          unicos[i].html = "CUSTO: "+numero(data[j].cx)+"<br/>"
+          unicos[i].html = "CUSTO: "+formatador_numero(data[j].cx)+"<br/>"
         }
         if(data[j].nomeProjeto  || data[j].salic || data[j].salic){
           unicos[i].html += "<br/>PROJETO: "+data[j].nomeProjeto+"<br/>"+"SALIC: "+data[j].salic+"<br/>"+"FSA: "+data[j].fsa+"<br/>";
@@ -73,7 +83,7 @@ var drawD3Document = function (retorno, canvas, indice){
   }
 
   var xScale = d3.scale.linear().domain([data[0].cx, data[data.length-1].cx]).range([0, WIDTH]);
-  var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(numOfticks).tickSize(-HEIGHT_X_AXIS/8);
+  var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(numOfticks).tickSize(TICK_SIZE);
 
   var zoom = d3.behavior.zoom()
   .x(xScale)
@@ -81,10 +91,9 @@ var drawD3Document = function (retorno, canvas, indice){
   .on("zoom", zoomed)
 
   var svg = d3.select("#"+canvas).append("svg")
-  .attr("width", WIDTH + margin.left + margin.right)
-  .attr("height", HEIGHT + margin.top + margin.bottom)
+  .attr("width", SVG_WIDTH)
+  .attr("height", SVG_HEIGHT)
   .append("g")
-  .attr("class", "cont")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
   .call(zoom);
 
@@ -118,11 +127,11 @@ var drawD3Document = function (retorno, canvas, indice){
   .attr('x', 0)
   .attr('y', 0)
   .attr('width', function(d){return xScale(data[data.length-1].cx)-xScale(data[0].cx)})
-  .attr('height', HEIGHT_X_AXIS)
-  .attr('fill', "blue")
+  .attr('height', SVG_HEIGHT)
+  .attr('fill', "green")
   .attr('opacity', 0)
   .attr("class", "rect1")
-   .on("click", function(d) {
+   .on("mousedown", function(d) {
     div.transition()
     .duration(500)
     .style("opacity", 0);
@@ -136,7 +145,7 @@ var drawD3Document = function (retorno, canvas, indice){
   .attr('fill', rect.fill)
   .attr('opacity', rect.opacity)
   .attr("class", "rect2")
-  .on("click", function(d) {
+  .on("mousedown", function(d) {
     div.transition()
     .duration(500)
     .style("opacity", 0);
@@ -151,7 +160,7 @@ var drawD3Document = function (retorno, canvas, indice){
   .attr("r", 4)
   .attr("class", "circle"+indice)
   .style("fill", function(d){return d.color})
-  .on("mouseover", function(d) {
+  .on("click", function(d) {
     div.html(d.html)
     .transition()
     .duration(200)
@@ -159,11 +168,11 @@ var drawD3Document = function (retorno, canvas, indice){
     .style("left", (d3.event.pageX) + "px")
     .style("top", (d3.event.pageY - 40) + "px");
   })
-  .on("click", function(d) {
-    div.transition()
-    .duration(500)
-    .style("opacity", 0);
-  });
+  // .on("click", function(d) {
+  //   div.transition()
+  //   .duration(500)
+  //   .style("opacity", 0);
+  // });
 
   function zoomed() {
 
