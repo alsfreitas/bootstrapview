@@ -101,6 +101,20 @@ var drawD3Document = function (retorno, canvas, indice){
   .attr("class", "tooltip")
   .style("opacity", 0);
 
+   svg.append("rect")
+  .attr('x', 0)
+  .attr('y', 0)
+  .attr('width', function(d){return xScale(data[data.length-1].cx)-xScale(data[0].cx)})
+  .attr('height', SVG_HEIGHT)
+  .attr('fill', "green")
+  .attr('opacity', 0)
+  .attr("class", "rect1")
+   .on("mousedown", function(d) {
+    div.transition()
+    .duration(500)
+    .style("opacity", 0);
+  });
+
   svg.append("g")
   .attr("class", "x axis")
   .attr("id", "x"+indice)
@@ -123,19 +137,7 @@ var drawD3Document = function (retorno, canvas, indice){
   // .attr("y", HEIGHT+40)
   // .style("text-anchor", "center");
 
-  svg.append("rect")
-  .attr('x', 0)
-  .attr('y', 0)
-  .attr('width', function(d){return xScale(data[data.length-1].cx)-xScale(data[0].cx)})
-  .attr('height', SVG_HEIGHT)
-  .attr('fill', "green")
-  .attr('opacity', 0)
-  .attr("class", "rect1")
-   .on("mousedown", function(d) {
-    div.transition()
-    .duration(500)
-    .style("opacity", 0);
-  });
+
 
   svg.append("rect")
   .attr('x', function(d){return xScale(+rect.x)})

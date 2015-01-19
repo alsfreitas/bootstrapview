@@ -33,7 +33,7 @@
 <body>
        <!-- Início da área de transmissão do código do lado do servidor -->
       <script>
-          var custoProjeto = 3000000;
+          var custoProjeto = 2000000;
           var longa = true;
           var seriado = false;
           var tipologia = "ficcao";
@@ -66,7 +66,7 @@
         <p class="bootstrap"><b>Bootstrap: </b></p>
       </div>
 
-      <div class="canvas" id="canvas4" data-item-id="4000" data-custo-item="0.00"></div>
+      <div class="canvas" id="canvas4" data-item-id="4000" data-custo-item="123456.00"></div>
       <div class="dados" id="dados4">
         <p class="item"><b>Item: </b>4000</p>
         <p class="valor_minimo"><b>Custo mínimo: </b></p>
@@ -408,7 +408,7 @@
         for(var i = 0; i < canvas.length; i++){
           (function(indice){
               $.ajax({
-                url: "http://localhost:8080/ancineservicos/sanfom/itens/"+canvas[indice].getAttribute("data-item-id")+"/?custoProjeto="+custoProjeto+"&longa="+longa+"&custoItem="+canvas[indice].getAttribute("data-custo-item")+"&seriado="+seriado+"&tipologia="+tipologia,
+                url: "http://jb-hml-mig:8080/ancineservicos/sanfom/itens/"+canvas[indice].getAttribute("data-item-id")+"/?custoProjeto="+custoProjeto+"&longa="+longa+"&custoItem="+canvas[indice].getAttribute("data-custo-item")+"&seriado="+seriado+"&tipologia="+tipologia,
                 method: "GET",
                 dataType: 'json',
                 success: function(retorno){
