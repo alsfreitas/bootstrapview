@@ -408,7 +408,7 @@
         for(var i = 0; i < canvas.length; i++){
           (function(indice){
               $.ajax({
-                url: "http://172.16.1.105/ancineservicos/sanfom/itens/"+canvas[indice].getAttribute("data-item-id")+"/?custoProjeto="+custoProjeto+"&longa="+longa+"&custoItem="+canvas[indice].getAttribute("data-custo-item")+"&seriado="+seriado+"&tipologia="+tipologia,
+                url: "http://jb-hml-mig:8080/ancineservicos/sanfom/itens/"+canvas[indice].getAttribute("data-item-id")+"/?custoProjeto="+custoProjeto+"&longa="+longa+"&custoItem="+canvas[indice].getAttribute("data-custo-item")+"&seriado="+seriado+"&tipologia="+tipologia,
                 method: "GET",
                 dataType: 'json',
                 success: function(retorno){
@@ -426,21 +426,19 @@
                   $("#"+dados[indice]['id']).find(".valor_minimo").append(formatador_numero(pontos[0].valor))
                   $("#"+dados[indice]['id']).find(".valor_maximo").append(formatador_numero(pontos[pontos.length-1].valor))
                   $("#"+dados[indice]['id']).find(".custos_positivos").append(pontos.length)
-                  pontos.push({'valor': canvas[indice].getAttribute("data-custo-item"), 'nomeProjeto': 'f4k3'})
+                  pontos.push({'valor': canvas[indice].getAttribute("data-custo-item")})
                   pontos.sort(function(a,b){return a.valor - b.valor;})
                   retorno.pontos = pontos
                   drawD3Document(retorno, canvas[indice]['id'], indice);
 
+                  //console.log(dados[indice]['id'], pontos[0].valor, pontos[pontos.length-1].valor, (retorno.limitesBootstrap[0]+5000.50) > pontos[0].valor, (retorno.limitesBootstrap[1]+15000.74) < pontos[pontos.length-1].valor)
 
-                  console.log(dados[indice]['id'], pontos[0].valor, pontos[pontos.length-1].valor, (retorno.limitesBootstrap[0]+5000.50) > pontos[0].valor, (retorno.limitesBootstrap[1]+15000.74) < pontos[pontos.length-1].valor)
-
-                  //quando em produção, a lógica deste if servirá para definir o range do bootstrap de cada item
-                  //atualmente, este if serve apenas para simular a aposição do bootstrap
-                  if(((retorno.limitesBootstrap[0]+5000.50) > pontos[0].valor) && (((retorno.limitesBootstrap[1]+15000.74) < pontos[pontos.length-1].valor))){
-                    $("#"+dados[indice]['id']).find(".bootstrap").append("["+formatador_numero(retorno.limitesBootstrap[0]+5000.50)+"-"+formatador_numero(retorno.limitesBootstrap[1]+15000.74)+"]")
+                  if(retorno.limitesBootstrap[1] > retorno.limitesBootstrap[0]){
+                    $("#"+dados[indice]['id']).find(".bootstrap").append("["+formatador_numero(retorno.limitesBootstrap[0])+"-"+formatador_numero(retorno.limitesBootstrap[1])+"]")
                   }else{
-                    $("#"+dados[indice]['id']).find(".bootstrap").append("Não se aplica")
+                    $("#"+dados[indice]['id']).find(".bootstrap").append("Não aplicável")
                   }
+
 
                 }
               });

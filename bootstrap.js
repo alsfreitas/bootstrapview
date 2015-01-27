@@ -59,14 +59,7 @@ var drawD3Document = function (retorno, canvas, indice){
     return a.cx - b.cx;
   });
 
-  var rect = {}
-  if((retorno.limitesBootstrap[0]+5000.50) > data[0].cx && (retorno.limitesBootstrap[1]+15000.74) < data[data.length-1].cx){
-    rect = {"x":retorno.limitesBootstrap[0]+5000, "y":BOOTSTRAP_Y, "height": BOOTSTRAP_HEIGHT, "x2":retorno.limitesBootstrap[1]+15000, "fill":"yellow", "opacity":0.5};
-  }else{
-    //código de produção
-    //deixar apenas esta linha quando em produção. O if envolvente serve apenas para mostrar o bootstrap
-    rect = {"x":retorno.limitesBootstrap[0], "y":BOOTSTRAP_Y, "height": BOOTSTRAP_HEIGHT, "x2":retorno.limitesBootstrap[1], "fill":"yellow", "opacity":0.5};
-  }
+  var rect = {"x":retorno.limitesBootstrap[0], "y":BOOTSTRAP_Y, "height": BOOTSTRAP_HEIGHT, "x2":retorno.limitesBootstrap[1], "fill":"yellow", "opacity":0.5};
 
   var unicos = data.unique()
   for(var i = 0; i<unicos.length; i++){
