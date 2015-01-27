@@ -10,6 +10,8 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
   }
+  
+  svg { overflow: hidden; }
 
   .axis path,
   .axis line {
@@ -20,4 +22,10 @@ div.tooltip {
 
   .dot {
     stroke: #000;
+  }
+
+  #canvas {
+  }
+
+  #canvas-svg {
   }
